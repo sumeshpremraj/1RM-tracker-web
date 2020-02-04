@@ -1,0 +1,22 @@
+<html>
+    <head><title></title></head>
+    <body>
+        <h1>Calculate 1RM</h1>
+        <form>
+            <input id="reps" type="number" />
+            <input id="weight" type="number" />
+            <button type="submit" id="submit" onclick="return calculateMax();">Calculate</button>
+        </form>
+        <span id="result"></span>
+        <script>
+        function calculateMax() {
+            let reps = document.getElementById("reps").value;
+            let weight = document.getElementById("weight").value;
+            let max = weight*reps;
+            console.log(max);
+            document.getElementById("result").innerHTML = max;
+            return false;
+        }
+        </script>
+    </body>
+</html>
