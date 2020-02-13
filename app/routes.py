@@ -11,7 +11,7 @@ from werkzeug.urls import url_parse
 def index():
     return "Hello world"
 
-@app.route('/maxes')
+@app.route('/max')
 @login_required
 def maxes():
     return render_template('max.html')

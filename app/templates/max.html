@@ -12,7 +12,7 @@
         function calculateMax() {
             let reps = document.getElementById("reps").value;
             let weight = document.getElementById("weight").value;
-            let max = weight*reps;
+            let max = weight * (1+reps/30);
             console.log(max);
             document.getElementById("result").innerHTML = max;
             return false;
