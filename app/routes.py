@@ -1,7 +1,7 @@
-from flask import request, render_template, redirect
-from app import app
-from flask_login import current_user, login_required, login_user
-from app.forms import LoginForm
+from flask import request, render_template, redirect, url_for, flash
+from app import app, db
+from flask_login import current_user, login_required, login_user, logout_user
+from app.forms import LoginForm, RegistrationForm, MaxForm
 from app.models import User, Lift
 from werkzeug.urls import url_parse
 
@@ -9,12 +9,24 @@ from werkzeug.urls import url_parse
 @app.route('/index')
 @login_required
 def index():
-    return "Hello world"
+    return "Index page"
 
-@app.route('/max')
+@app.route('/max', methods=['GET', 'POST'])
 @login_required
-def maxes():
-    return render_template('max.html')
+def max():
+    form = MaxForm()
+    if form.validate_on_submit():
+        lift = Lift(user_id=current_user.get_id(),\
+                    lift_name=form.lift_name.data,\
+                    max=form.max.data,\
+                    weight=form.weight.data,\
+                    reps=form.reps.data,\
+                    timestamp=form.timestamp.data)
+        db.session.add(lift)
+        db.session.commit()
+        flash('Saved data')
+        return redirect(url_for('max'))
+    return render_template('max.html', title='Max', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -37,3 +49,18 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)

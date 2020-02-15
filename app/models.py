@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
 
 class Lift(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    lift = db.Column(db.String(25))
+    lift_name = db.Column(db.String(25))
     weight = db.Column(db.Float)
     reps = db.Column(db.Integer)
     max = db.Column(db.Float, default=0)

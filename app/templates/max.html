@@ -1,22 +1,36 @@
-<html>
-    <head><title></title></head>
-    <body>
+{% extends "base.html" %}
+{% block content %}
         <h1>Calculate 1RM</h1>
-        <form>
-            <input id="reps" type="number" />
-            <input id="weight" type="number" />
-            <button type="submit" id="submit" onclick="return calculateMax();">Calculate</button>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <!-- <input type="date" id="datepicker" />
+            <input type="text" id="lift" />
+            <input id="reps" type="number" onchange="return calculateMax();" />
+            <input id="weight" onchange="return calculateMax();" />
+            <input id="result" />
+            <button type="submit" id="submit" onclick="">Submit</button>
+            <input type="reset" value="Reset the form"> -->
+            {{ form.timestamp.label }} <br/>
+            {{ form.timestamp }} <br/>
+            {{ form.lift_name.label }}<br/>
+            {{ form.lift_name }}<br/>
+            {{ form.reps.label }}<br/>
+            {{ form.reps }}<br/>
+            {{ form.weight.label }}<br/>
+            {{ form.weight }}<br/>
+            {{ form.max.label }}<br/>
+            {{ form.max }}<br/>
+            {{ form.submit }}<br/>
+            <!-- {{ form.reset }} -->
         </form>
-        <span id="result"></span>
         <script>
         function calculateMax() {
             let reps = document.getElementById("reps").value;
             let weight = document.getElementById("weight").value;
             let max = weight * (1+reps/30);
             console.log(max);
-            document.getElementById("result").innerHTML = max;
+            document.getElementById("result").value = max;
             return false;
-        }
+        }        
         </script>
-    </body>
-</html>
+{% endblock %}
