@@ -5,4 +5,55 @@
     {% for lift in lift_history %}
     {{ lift.timestamp }}: {{ lift.lift_name }}: {{ lift.max }}
     {% endfor %}
+<div style="width:400px; height: 400px;">
+<canvas id="line-chart" width="400" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+var ctx = document.getElementById('line-chart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for lift in lift_history %}"{{ lift.timestamp }}",{% endfor %}],
+        datasets: [{
+            label: 'Deadlift',
+            data: [{% for lift in lift_history %}{% if lift.lift_name == 'Deadlift' %}"{{ lift.max }}",{% endif %}{% endfor %}],
+            borderColor: "#8e5ea2",
+            fill: false
+        },
+        {
+            label: 'Press',
+            data: [{% for lift in lift_history %}{% if lift.lift_name == 'Press' %}"{{ lift.max }}",{% endif %}{% endfor %}],
+            borderColor: "#3e95cd",
+            fill: false
+        },
+        {
+            label: 'Squat',
+            data: [{% for lift in lift_history %}{% if lift.lift_name == 'Squat' %}"{{ lift.max }}",{% endif %}{% endfor %}],
+            borderColor: "#3e95cd",
+            fill: false
+        },
+        {
+            label: 'Bench',
+            data: [{% for lift in lift_history %}{% if lift.lift_name == 'Bench' %}"{{ lift.max }}",{% endif %}{% endfor %}],
+            borderColor: "#3e95cd",
+            fill: false
+        },
+        ]
+    },
+    options: {
+        title: {
+          display: true,
+          text: 'One rep max progress'
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+</div>
 {% endblock %}
