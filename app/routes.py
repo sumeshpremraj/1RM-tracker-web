@@ -4,6 +4,15 @@ from flask_login import current_user, login_required, login_user, logout_user
 from app.forms import LoginForm, RegistrationForm, MaxForm
 from app.models import User, Lift
 from werkzeug.urls import url_parse
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler('tracker.log')
+handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 @app.route('/')
 @app.route('/index')
@@ -11,26 +20,11 @@ from werkzeug.urls import url_parse
 def index():
     return "Index page"
 
-@app.route('/max', methods=['GET', 'POST'])
-@login_required
-def max():
-    form = MaxForm()
-    if form.validate_on_submit():
-        lift = Lift(user_id=current_user.get_id(),\
-                    lift_name=form.lift_name.data,\
-                    max=form.max.data,\
-                    weight=form.weight.data,\
-                    reps=form.reps.data,\
-                    timestamp=form.timestamp.data)
-        db.session.add(lift)
-        db.session.commit()
-        flash('Saved data')
-        return redirect(url_for('max'))
-    return render_template('max.html', title='Max', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
+        logger.debug("User already logged in, redirecting to index")
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
@@ -54,6 +48,7 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
+        logger.debug("User already logged in, redirecting to index")
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -64,3 +59,31 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/max', methods=['GET', 'POST'])
+@login_required
+def max():
+    form = MaxForm()
+    if form.validate_on_submit():
+        lift = Lift(user_id=current_user.get_id(),\
+                    lift_name=form.lift_name.data,\
+                    max=form.max.data,\
+                    weight=form.weight.data,\
+                    reps=form.reps.data,\
+                    timestamp=form.timestamp.data)
+        db.session.add(lift)
+        db.session.commit()
+        flash('Saved data')
+        return redirect(url_for('max'))
+    else:
+        logger.debug(form.errors)
+    return render_template('max.html', title='Max', form=form)
+
+
+@app.route('/history', methods=['GET'])
+@login_required
+def history():
+    lift_history = Lift.query.filter_by(user_id=current_user.get_id())
+    return render_template('history.html', lift_history=lift_history)
+

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>1RM history</h1>
+    {% for lift in lift_history %}
+    {{ lift.timestamp }}: {{ lift.lift_name }}: {{ lift.max }}
+    {% endfor %}
+{% endblock %}

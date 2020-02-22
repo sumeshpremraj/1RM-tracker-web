@@ -5,3 +5,5 @@
 migrations
 *.pyc
 *.db
+.idea
+.log

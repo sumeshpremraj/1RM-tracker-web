@@ -29,7 +29,7 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Please use a different email address.')
 
 class MaxForm(FlaskForm):
-    date = DateField()
+    timestamp = DateField()
     lift_name = StringField()
     reps = IntegerField()
     weight = DecimalField()
