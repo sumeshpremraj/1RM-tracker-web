@@ -1,10 +1,10 @@
+import logging
 from flask import request, render_template, redirect, url_for, flash
 from app import app, db
 from flask_login import current_user, login_required, login_user, logout_user
 from app.forms import LoginForm, RegistrationForm, MaxForm
 from app.models import User, Lift
 from werkzeug.urls import url_parse
-import logging
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -13,6 +13,7 @@ handler.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+
 
 @app.route('/')
 @app.route('/index')
@@ -86,4 +87,3 @@ def max():
 def history():
     lift_history = Lift.query.filter_by(user_id=current_user.get_id())
     return render_template('history.html', lift_history=lift_history)
-

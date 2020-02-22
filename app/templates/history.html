@@ -3,7 +3,7 @@
 {% block content %}
     <h1>1RM history</h1>
     {% for lift in lift_history %}
-    {{ lift.timestamp }}: {{ lift.lift_name }}: {{ lift.max }}
+    {{ moment(lift.timestamp).format("DD/MM/YY") }}: {{ lift.lift_name }}: {{ lift.max }}<br/>
     {% endfor %}
 <div style="width:400px; height: 400px;">
 <canvas id="line-chart" width="400" height="400"></canvas>

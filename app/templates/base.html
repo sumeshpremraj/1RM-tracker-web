@@ -5,6 +5,8 @@
       {% else %}
       <title>Welcome</title>
       {% endif %}
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
     </head>
     <body>
         {% if current_user.is_anonymous %}
