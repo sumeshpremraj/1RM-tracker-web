@@ -1,0 +1,5 @@
+- Responsive design
+- Public page to show data
+    - Privacy controls?
+- Data export and import
+    - What formats?
