@@ -6,4 +6,4 @@ migrations
 *.pyc
 *.db
 .idea
-.log
+*.log
