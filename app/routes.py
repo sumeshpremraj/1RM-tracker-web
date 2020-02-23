@@ -19,7 +19,7 @@ logger.addHandler(handler)
 @app.route('/index')
 @login_required
 def index():
-    return "Index page"
+    return render_template("index.html")
 
 
 @app.route('/login', methods=['GET', 'POST'])

@@ -1,43 +1,47 @@
 {% extends "base.html" %}
-{% block content %}
-        <h1>Calculate 1RM</h1>
-        <form action="" method="post" novalidate>
-            {{ form.hidden_tag() }}
-            <!-- <input type="date" id="datepicker" />
-            <input type="text" id="lift" />
-            <input id="reps" type="number" onchange="return calculateMax();" />
-            <input id="weight" onchange="return calculateMax();" />
-            <input id="result" />
-            <button type="submit" id="submit" onclick="">Submit</button>
-            <input type="reset" value="Reset the form"> -->
-            {{ form.timestamp.label }} <br/>
-            {{ form.timestamp }} <br/>
-            {{ form.lift_name.label }}<br/>
-            {{ form.lift_name }}<br/>
-            {{ form.reps.label }}<br/>
-            {{ form.reps(onchange="return calculateMax()") }}<br/>
-            {{ form.weight.label }}<br/>
-            {{ form.weight(onchange="return calculateMax()") }}<br/>
-            {{ form.max.label }}<br/>
-            {{ form.max }}<br/>
-            {{ form.submit }}<br/>
-            <!-- {{ form.reset }} -->
-            {% for error in form.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </form>
-        <script>
-        function calculateMax() {
-            let reps = document.getElementById("reps").value;
-            let weight = document.getElementById("weight").value;
-            if(weight == null){
-                console.log("Both fields do not have value, exiting calculateMax")
-                return false;
-            }
-            let max = weight * (1+reps/30);
-            console.log(max);
-            document.getElementById("max").value = max;
-            return false;
-        }        
-        </script>
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<h1>Hi, {{ current_user.username }}!</h1>
+
+<h2>Calculate 1RM</h2>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <!-- <input type="date" id="datepicker" />
+    <input type="text" id="lift" />
+    <input id="reps" type="number" onchange="return calculateMax();" />
+    <input id="weight" onchange="return calculateMax();" />
+    <input id="result" />
+    <button type="submit" id="submit" onclick="">Submit</button>
+    <input type="reset" value="Reset the form"> -->
+    {{ form.timestamp.label }} <br/>
+    {{ form.timestamp }} <br/>
+    {{ form.lift_name.label }}<br/>
+    {{ form.lift_name }}<br/>
+    {{ form.reps.label }}<br/>
+    {{ form.reps(onchange="return calculateMax()") }}<br/>
+    {{ form.weight.label }}<br/>
+    {{ form.weight(onchange="return calculateMax()") }}<br/>
+    {{ form.max.label }}<br/>
+    {{ form.max }}<br/>
+    {{ form.submit }}<br/>
+    <!-- {{ form.reset }} -->
+    {% for error in form.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</form>
+<script>
+function calculateMax() {
+    let reps = document.getElementById("reps").value;
+    let weight = document.getElementById("weight").value;
+    if(weight == null){
+        console.log("Both fields do not have value, exiting calculateMax")
+        return false;
+    }
+    let max = weight * (1+reps/30);
+    console.log(max);
+    document.getElementById("max").value = max;
+    return false;
+}
+</script>
 {% endblock %}
