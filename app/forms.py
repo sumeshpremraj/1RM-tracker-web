@@ -31,7 +31,7 @@ class RegistrationForm(FlaskForm):
 class MaxForm(FlaskForm):
     timestamp = DateField()
     lift_name = StringField()
-    reps = IntegerField()
-    weight = DecimalField()
+    reps = IntegerField(render_kw={'onChange': 'return calculateMax();'})
+    weight = DecimalField(render_kw={'onChange': 'return calculateMax();'})
     max = DecimalField()
     submit = SubmitField()
