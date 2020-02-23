@@ -85,5 +85,6 @@ def max():
 @app.route('/history', methods=['GET'])
 @login_required
 def history():
-    lift_history = Lift.query.filter_by(user_id=current_user.get_id())
-    return render_template('history.html', lift_history=lift_history)
+    lift_history = Lift.query.filter_by(user_id=current_user.get_id()).order_by(Lift.timestamp)
+    date_history = Lift.query.filter_by(user_id=current_user.get_id()).with_entities(Lift.timestamp).order_by(Lift.timestamp).distinct()
+    return render_template('history.html', lift_history=lift_history, date_history=date_history)
