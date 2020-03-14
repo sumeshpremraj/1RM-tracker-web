@@ -2,7 +2,6 @@
 .venv
 .vscode
 .flaskenv
-migrations
 *.pyc
 *.db
 .idea
