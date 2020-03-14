@@ -9,3 +9,4 @@ flask-moment
 flask-bootstrap
 simplejson
 watchdog
+gunicorn
