@@ -1,3 +1,4 @@
+from datetime import date
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, DecimalField, PasswordField, BooleanField, SubmitField
 from wtforms.fields.html5 import DateField
@@ -29,12 +30,17 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Please use a different email address.')
 
 class MaxForm(FlaskForm):
-    timestamp = DateField()
+    timestamp = DateField(format='%Y-%m-%d', validators = [DataRequired('Please select date of lift')])
     lift_name = StringField()
     reps = IntegerField(render_kw={'onChange': 'return calculateMax();'})
     weight = DecimalField(render_kw={'onChange': 'return calculateMax();'})
     max = DecimalField()
     submit = SubmitField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.timestamp.data:
+            self.timestamp.data = date.today()
 
 
 class ResetPasswordRequestForm(FlaskForm):

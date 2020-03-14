@@ -7,3 +7,5 @@ flask-login
 psycopg2
 flask-moment
 flask-bootstrap
+simplejson
+watchdog
